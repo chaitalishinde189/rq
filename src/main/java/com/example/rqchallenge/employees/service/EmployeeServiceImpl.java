@@ -70,13 +70,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             if (CollectionUtils.isEmpty(employees)) {
                 return Collections.emptyList();
             }
-            return employees.stream()
-                    .filter(employee -> employee.getName().contains(searchString))
-                    .collect(Collectors.toList());
+            return findEmployeeWithMatchingName(employees, searchString);
         } catch (Exception e) {
             log.error("Error while fetching list of employees with name matching with: {}", searchString, e);
             throw new EmployeeServiceException(String.format(GET_EMPLOYEES_NAME_SEARCH_ERROR, searchString));
         }
+    }
+
+    private List<Employee> findEmployeeWithMatchingName(List<Employee> employees, String searchString) {
+        return employees.stream()
+                .filter(employee -> employee.getName().contains(searchString))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -113,16 +117,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
             List<Employee> employees = employeeServiceHelper.getAllEmployees().getData();
             if (!CollectionUtils.isEmpty(employees)) {
-                return employees.stream()
-                        .max(Comparator.comparing(Employee::getSalary))
-                        .map(Employee::getSalary)
-                        .orElse(0);
+                return findHighestSalary(employees);
             }
             return 0;
         } catch (Exception e) {
             log.error("Error while fetching highest salary of employees", e);
             throw new EmployeeServiceException(GET_EMPLOYEE_HIGHEST_SALARY_ERROR);
         }
+    }
+
+    public Integer findHighestSalary(List<Employee> employees) {
+        return employees.stream()
+                .max(Comparator.comparing(Employee::getSalary))
+                .map(Employee::getSalary)
+                .orElse(0);
     }
 
     /**
@@ -136,17 +144,21 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
             List<Employee> employees = employeeServiceHelper.getAllEmployees().getData();
             if (!CollectionUtils.isEmpty(employees)) {
-                return employees.stream()
-                        .sorted(Collections.reverseOrder(Comparator.comparing(Employee::getSalary)))
-                        .limit(limit)
-                        .map(Employee::getName)
-                        .collect(Collectors.toList());
+                return findTopNHighestEarningEmployeeNames(employees, limit);
             }
             return Collections.emptyList();
         } catch (Exception e) {
             log.error("Error while fetching top {} highest earning employee names", limit, e);
             throw new EmployeeServiceException(GET_EMPLOYEE_NAMES_HIGHEST_EARNINGS_ERROR);
         }
+    }
+
+    private List<String> findTopNHighestEarningEmployeeNames(List<Employee> employees, int limit) {
+        return employees.stream()
+                .sorted(Collections.reverseOrder(Comparator.comparing(Employee::getSalary)))
+                .limit(limit)
+                .map(Employee::getName)
+                .collect(Collectors.toList());
     }
 
     /**

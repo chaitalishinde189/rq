@@ -19,4 +19,12 @@ public class ErrorResponse {
 
     private HttpStatus status;
 
+    private Integer statusCode;
+
+    public ErrorResponse(String message, HttpStatus status) {
+        this.message = message;
+        this.status = status;
+        this.statusCode = status.value();
+    }
+
 }

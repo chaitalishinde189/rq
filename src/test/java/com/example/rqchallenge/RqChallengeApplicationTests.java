@@ -43,7 +43,7 @@ class RqChallengeApplicationTests {
     @DisplayName("Get all employees")
     public void getAllEmployees() {
         ResponseEntity<List<Employee>> responseEntity = testRestTemplate.exchange(getBaseUrl().toString(),
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<Employee>>() {
+                HttpMethod.GET, null, new ParameterizedTypeReference<>() {
                 });
         assertThat(responseEntity).isNotNull();
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -88,7 +88,7 @@ class RqChallengeApplicationTests {
     public void getEmployeesByNameSearch(String searchString, int expectedEmployeeCount) {
         ResponseEntity<List<Employee>> responseEntity = testRestTemplate.exchange(
                 getBaseUrl().append("/search/").append(searchString).toString(),
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<Employee>>() {
+                HttpMethod.GET, null, new ParameterizedTypeReference<>() {
                 });
         assertThat(responseEntity).isNotNull();
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -112,7 +112,7 @@ class RqChallengeApplicationTests {
     public void getTopTenHighestEarningEmployeeNames() {
         ResponseEntity<List<String>> responseEntity = testRestTemplate.exchange(
                 getBaseUrl().append("/topTenHighestEarningEmployeeNames").toString(),
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<String>>() {
+                HttpMethod.GET, null, new ParameterizedTypeReference<>() {
                 });
         assertThat(responseEntity).isNotNull();
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
