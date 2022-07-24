@@ -1,0 +1,9 @@
+##Test Name, Employee Name, Employee Age, Employee Salary##
+Missing name value,, 32, 10000
+Missing age value, Chaitali,, 10000
+Missing salary value, Chaitali, 32,
+Blank name value, "    ", 32, 10000
+Blank age value, Chaitali, "   ", 10000
+Blank salary value, Chaitali, 32, "  "
+Invalid age value, Chaitali, "32y", 10000
+Invalid salary value, Chaitali, 32, "10K"
